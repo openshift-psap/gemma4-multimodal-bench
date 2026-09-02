@@ -99,26 +99,5 @@ Gotchas learned the hard way:
 3. **31B on W4A16** — `google/gemma-4-31B-it-qat-w4a16-ct`. Frees ~16GB
    weights -> KV. Deliver with accuracy-validation flag (community
    reports of QAT quality regressions; the customer validates anyway).
-4. (stretch) Realistic repeat-mix dataset: unique text + 60-70% reused
-   image bytes, per the customer's stated production pattern.
 
-## Open questions with the customer
 
-- Do the 2x targets track the revised baselines (1.5 / 0.8)?
-- Per-image token accounting: their ~1700 vs our ~100-300.
-- Content-moderation use case (`dp-sample-100.csv` in the zip) is
-  entirely unbenchmarked — needs a guideline prompt written + images
-  fetched from asset URLs.
-
-## Deliverables produced
-
-- HTML report (self-contained, interactive):
-  `deliverables/benchmark-report.html`
-- Excel workbook with ratio matrices + native charts:
-  `deliverables/benchmarks-v2.xlsx`
-- Speaker notes for the customer-facing presentation:
-  `deliverables/speaker-notes-v2.md`
-
-Contacts: Hp (benchmarks, this repo) · Rob Greenberg (engagement lead / customer relay) ·
-Charles (prior H100/B200 synthetic benchmarks — see
-spec-decode-benchmark-guide repo, whose scripts this work extends).
