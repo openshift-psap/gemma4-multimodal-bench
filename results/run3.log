@@ -1,0 +1,222 @@
+nohup: ignoring input
+date: 2026-08-24T19:57:09+00:00
+vllm: 0.20.2rc1.dev49+g9b4e83934
+gpu: NVIDIA H100 80GB HBM3, 81559 MiB
+dataset: /vllm-workspace/benchmarks/customer-eng/customer/scripts-customer/data/customer_attr_unique.jsonl (1000 rows)
+output_tokens: 512  max_model_len: 8192  TP: 1
+=========================================
+  26b-fp8/baseline: /models/gemma-4-26B-A4B-it-FP8-Dynamic
+=========================================
+Starting server for /models/gemma-4-26B-A4B-it-FP8-Dynamic (TP=1) extra=[--no-enable-prefix-caching]...
+Server ready (170s).
+(EngineCore pid=7782) INFO 08-24 19:59:08 [kv_cache_utils.py:1710] GPU KV cache size: 198,878 tokens
+(EngineCore pid=7782) INFO 08-24 19:59:08 [kv_cache_utils.py:1711] Maximum concurrency for 8,192 tokens per request: 24.28x
+=== Warmup 1: serial, 5 requests (compile / CUDA graph capture) ===
+n=5 err=0 dur=18s QPS=0.271 out=139tok/s TTFT p50=959ms p99=3286ms mean_prompt_tok=3154
+=== Warmup 2: concurrent c=64, 60s ===
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=192 err=4 dur=63s QPS=3.029 out=1551tok/s TTFT p50=2810ms p99=12051ms mean_prompt_tok=3315
+Warmup complete.
+  Running: 26b-fp8-baseline-c1 (c=1, 60s)
+n=24 err=0 dur=62s QPS=0.386 out=198tok/s TTFT p50=206ms p99=261ms mean_prompt_tok=3129
+
+  n=24 err=0 dur=62s QPS=0.386 out=198tok/s prompt=1207tok/s TTFT p50=206ms p95=232ms p99=261ms
+  Running: 26b-fp8-baseline-c16 (c=16, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=192 err=4 dur=91s QPS=2.111 out=1081tok/s TTFT p50=1708ms p99=3260ms mean_prompt_tok=3320
+
+  n=192 err=4 dur=91s QPS=2.111 out=1081tok/s prompt=7009tok/s TTFT p50=1708ms p95=2877ms p99=3260ms
+  Running: 26b-fp8-baseline-c64 (c=64, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=317 err=6 dur=101s QPS=3.144 out=1610tok/s TTFT p50=2541ms p99=10259ms mean_prompt_tok=3306
+
+  n=317 err=6 dur=101s QPS=3.144 out=1610tok/s prompt=10393tok/s TTFT p50=2541ms p95=8147ms p99=10259ms
+  preemption log lines: 0
+Server stopped.
+
+=========================================
+  26b-fp8/pc-fp8kv: /models/gemma-4-26B-A4B-it-FP8-Dynamic
+=========================================
+Starting server for /models/gemma-4-26B-A4B-it-FP8-Dynamic (TP=1) extra=[--enable-prefix-caching --kv-cache-dtype fp8]...
+Server ready (190s).
+(EngineCore pid=8733) INFO 08-24 20:08:07 [kv_cache_utils.py:1710] GPU KV cache size: 397,763 tokens
+(EngineCore pid=8733) INFO 08-24 20:08:07 [kv_cache_utils.py:1711] Maximum concurrency for 8,192 tokens per request: 48.56x
+=== Warmup 1: serial, 5 requests (compile / CUDA graph capture) ===
+n=5 err=0 dur=19s QPS=0.269 out=138tok/s TTFT p50=968ms p99=3140ms mean_prompt_tok=3154
+=== Warmup 2: concurrent c=64, 60s ===
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=192 err=4 dur=64s QPS=2.982 out=1527tok/s TTFT p50=2897ms p99=12191ms mean_prompt_tok=3321
+Warmup complete.
+  Running: 26b-fp8-pc-fp8kv-c1 (c=1, 60s)
+n=23 err=0 dur=61s QPS=0.380 out=195tok/s TTFT p50=197ms p99=249ms mean_prompt_tok=3107
+
+  n=23 err=0 dur=61s QPS=0.380 out=195tok/s prompt=1180tok/s TTFT p50=197ms p95=224ms p99=249ms
+  Running: 26b-fp8-pc-fp8kv-c16 (c=16, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=208 err=4 dur=93s QPS=2.242 out=1148tok/s TTFT p50=1232ms p99=2748ms mean_prompt_tok=3325
+
+  n=208 err=4 dur=93s QPS=2.242 out=1148tok/s prompt=7455tok/s TTFT p50=1232ms p95=2490ms p99=2748ms
+  Running: 26b-fp8-pc-fp8kv-c64 (c=64, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=308 err=6 dur=101s QPS=3.039 out=1556tok/s TTFT p50=2259ms p99=9879ms mean_prompt_tok=3313
+
+  n=308 err=6 dur=101s QPS=3.039 out=1556tok/s prompt=10069tok/s TTFT p50=2259ms p95=7714ms p99=9879ms
+  preemption log lines: 0
+Server stopped.
+
+=========================================
+  26b-fp8/pc-fp8kv-sched: /models/gemma-4-26B-A4B-it-FP8-Dynamic
+=========================================
+Starting server for /models/gemma-4-26B-A4B-it-FP8-Dynamic (TP=1) extra=[--enable-prefix-caching --kv-cache-dtype fp8 --gpu-memory-utilization 0.95 --max-num-batched-tokens 16384]...
+Server ready (180s).
+(EngineCore pid=9699) INFO 08-24 20:17:05 [kv_cache_utils.py:1710] GPU KV cache size: 412,271 tokens
+(EngineCore pid=9699) INFO 08-24 20:17:05 [kv_cache_utils.py:1711] Maximum concurrency for 8,192 tokens per request: 50.33x
+=== Warmup 1: serial, 5 requests (compile / CUDA graph capture) ===
+n=5 err=0 dur=18s QPS=0.272 out=139tok/s TTFT p50=935ms p99=2810ms mean_prompt_tok=3154
+=== Warmup 2: concurrent c=64, 60s ===
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=192 err=4 dur=66s QPS=2.909 out=1489tok/s TTFT p50=4489ms p99=11926ms mean_prompt_tok=3321
+Warmup complete.
+  Running: 26b-fp8-pc-fp8kv-sched-c1 (c=1, 60s)
+n=23 err=0 dur=60s QPS=0.381 out=195tok/s TTFT p50=197ms p99=247ms mean_prompt_tok=3107
+
+  n=23 err=0 dur=60s QPS=0.381 out=195tok/s prompt=1185tok/s TTFT p50=197ms p95=225ms p99=247ms
+  Running: 26b-fp8-pc-fp8kv-sched-c16 (c=16, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=208 err=4 dur=93s QPS=2.238 out=1146tok/s TTFT p50=1178ms p99=2083ms mean_prompt_tok=3319
+
+  n=208 err=4 dur=93s QPS=2.238 out=1146tok/s prompt=7427tok/s TTFT p50=1178ms p95=2033ms p99=2083ms
+  Running: 26b-fp8-pc-fp8kv-sched-c64 (c=64, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=320 err=6 dur=102s QPS=3.123 out=1599tok/s TTFT p50=3637ms p99=10059ms mean_prompt_tok=3304
+
+  n=320 err=6 dur=102s QPS=3.123 out=1599tok/s prompt=10317tok/s TTFT p50=3637ms p95=7672ms p99=10059ms
+  preemption log lines: 0
+Server stopped.
+
+=========================================
+  31b-fp8/baseline: RedHatAI/gemma-4-31B-it-FP8-Dynamic
+=========================================
+Starting server for RedHatAI/gemma-4-31B-it-FP8-Dynamic (TP=1) extra=[--no-enable-prefix-caching]...
+Server ready (200s).
+(EngineCore pid=10666) INFO 08-24 20:26:11 [kv_cache_utils.py:1710] GPU KV cache size: 43,100 tokens
+(EngineCore pid=10666) INFO 08-24 20:26:11 [kv_cache_utils.py:1711] Maximum concurrency for 8,192 tokens per request: 5.26x
+=== Warmup 1: serial, 5 requests (compile / CUDA graph capture) ===
+n=5 err=0 dur=45s QPS=0.112 out=57tok/s TTFT p50=525ms p99=2237ms mean_prompt_tok=3154
+=== Warmup 2: concurrent c=64, 60s ===
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=98 err=2 dur=123s QPS=0.794 out=407tok/s TTFT p50=44142ms p99=61080ms mean_prompt_tok=3329
+Warmup complete.
+  Running: 31b-fp8-baseline-c1 (c=1, 60s)
+n=7 err=0 dur=60s QPS=0.116 out=59tok/s TTFT p50=653ms p99=887ms mean_prompt_tok=3204
+
+  n=7 err=0 dur=60s QPS=0.116 out=59tok/s prompt=372tok/s TTFT p50=653ms p95=846ms p99=887ms
+  Running: 31b-fp8-baseline-c16 (c=16, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=73 err=2 dur=107s QPS=0.683 out=350tok/s TTFT p50=4241ms p99=8715ms mean_prompt_tok=3303
+
+  n=73 err=2 dur=107s QPS=0.683 out=350tok/s prompt=2257tok/s TTFT p50=4241ms p95=7773ms p99=8715ms
+  Running: 31b-fp8-baseline-c64 (c=64, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=127 err=2 dur=145s QPS=0.876 out=448tok/s TTFT p50=42668ms p99=60888ms mean_prompt_tok=3302
+
+  n=127 err=2 dur=145s QPS=0.876 out=448tok/s prompt=2891tok/s TTFT p50=42668ms p95=49802ms p99=60888ms
+  preemption log lines: 0
+Server stopped.
+
+=========================================
+  31b-fp8/pc-fp8kv: RedHatAI/gemma-4-31B-it-FP8-Dynamic
+=========================================
+Starting server for RedHatAI/gemma-4-31B-it-FP8-Dynamic (TP=1) extra=[--enable-prefix-caching --kv-cache-dtype fp8]...
+Server ready (220s).
+(EngineCore pid=11564) INFO 08-24 20:38:05 [kv_cache_utils.py:1710] GPU KV cache size: 86,203 tokens
+(EngineCore pid=11564) INFO 08-24 20:38:05 [kv_cache_utils.py:1711] Maximum concurrency for 8,192 tokens per request: 10.52x
+=== Warmup 1: serial, 5 requests (compile / CUDA graph capture) ===
+n=5 err=0 dur=45s QPS=0.110 out=57tok/s TTFT p50=514ms p99=2465ms mean_prompt_tok=3154
+=== Warmup 2: concurrent c=64, 60s ===
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=74 err=2 dur=81s QPS=0.913 out=467tok/s TTFT p50=13743ms p99=34556ms mean_prompt_tok=3328
+Warmup complete.
+  Running: 31b-fp8-pc-fp8kv-c1 (c=1, 60s)
+n=7 err=0 dur=61s QPS=0.115 out=59tok/s TTFT p50=629ms p99=874ms mean_prompt_tok=3204
+
+  n=7 err=0 dur=61s QPS=0.115 out=59tok/s prompt=370tok/s TTFT p50=629ms p95=831ms p99=874ms
+  Running: 31b-fp8-pc-fp8kv-c16 (c=16, 90s)
+n=64 err=0 dur=91s QPS=0.703 out=360tok/s TTFT p50=3990ms p99=8428ms mean_prompt_tok=3224
+
+  n=64 err=0 dur=91s QPS=0.703 out=360tok/s prompt=2267tok/s TTFT p50=3990ms p95=7349ms p99=8428ms
+  Running: 31b-fp8-pc-fp8kv-c64 (c=64, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=125 err=2 dur=118s QPS=1.062 out=544tok/s TTFT p50=7486ms p99=35078ms mean_prompt_tok=3296
+
+  n=125 err=2 dur=118s QPS=1.062 out=544tok/s prompt=3500tok/s TTFT p50=7486ms p95=31432ms p99=35078ms
+  preemption log lines: 0
+Server stopped.
+
+=========================================
+  31b-fp8/pc-fp8kv-sched: RedHatAI/gemma-4-31B-it-FP8-Dynamic
+=========================================
+Starting server for RedHatAI/gemma-4-31B-it-FP8-Dynamic (TP=1) extra=[--enable-prefix-caching --kv-cache-dtype fp8 --gpu-memory-utilization 0.95 --max-num-batched-tokens 16384]...
+Server ready (230s).
+(EngineCore pid=12476) INFO 08-24 20:48:45 [kv_cache_utils.py:1710] GPU KV cache size: 91,299 tokens
+(EngineCore pid=12476) INFO 08-24 20:48:45 [kv_cache_utils.py:1711] Maximum concurrency for 8,192 tokens per request: 11.14x
+=== Warmup 1: serial, 5 requests (compile / CUDA graph capture) ===
+n=5 err=0 dur=45s QPS=0.111 out=57tok/s TTFT p50=519ms p99=2607ms mean_prompt_tok=3154
+=== Warmup 2: concurrent c=64, 60s ===
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=65 err=2 dur=68s QPS=0.950 out=486tok/s TTFT p50=16365ms p99=36414ms mean_prompt_tok=3259
+Warmup complete.
+  Running: 31b-fp8-pc-fp8kv-sched-c1 (c=1, 60s)
+n=8 err=0 dur=68s QPS=0.117 out=60tok/s TTFT p50=586ms p99=845ms mean_prompt_tok=3217
+
+  n=8 err=0 dur=68s QPS=0.117 out=60tok/s prompt=376tok/s TTFT p50=586ms p95=801ms p99=845ms
+  Running: 31b-fp8-pc-fp8kv-sched-c16 (c=16, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=65 err=2 dur=99s QPS=0.656 out=336tok/s TTFT p50=4476ms p99=8601ms mean_prompt_tok=3259
+
+  n=65 err=2 dur=99s QPS=0.656 out=336tok/s prompt=2138tok/s TTFT p50=4476ms p95=8150ms p99=8601ms
+  Running: 31b-fp8-pc-fp8kv-sched-c64 (c=64, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 8192 tokens. However, you requested 512 output tokens and your prompt contains at least 7681 input tokens, for a total of at least 8193 toke
+n=128 err=2 dur=121s QPS=1.057 out=541tok/s TTFT p50=12400ms p99=33803ms mean_prompt_tok=3304
+
+  n=128 err=2 dur=121s QPS=1.057 out=541tok/s prompt=3493tok/s TTFT p50=12400ms p95=30610ms p99=33803ms
+  preemption log lines: 0
+Server stopped.
+
+# customer Attribute-Extraction Benchmark — H100, TP=1
+
+```
+date: 2026-08-24T19:57:09+00:00
+vllm: 0.20.2rc1.dev49+g9b4e83934
+gpu: NVIDIA H100 80GB HBM3, 81559 MiB
+dataset: /vllm-workspace/benchmarks/customer-eng/customer/scripts-customer/data/customer_attr_unique.jsonl (1000 rows)
+output_tokens: 512  max_model_len: 8192  TP: 1
+```
+
+customer-reported baselines: 26B = 2.2 QPS, 31B = 1.0 QPS. P0 target = 2x (4.4 / 2.0).
+QPS here is successful requests / wall time at fixed concurrency. customer's measurement method is unconfirmed; compare shapes, not just numbers, until that is resolved.
+
+## Gemma-4 26B-A4B (MoE) FP8-Dynamic
+
+| Config | C | Reqs | Err | **QPS** | vs target | Out tok/s | Prompt tok/s | TTFT p50 | TTFT p95 | TTFT p99 | ITL p50 | ITL p95 | Lat p50 (s) | Lat p99 (s) |
+|--------|--:|-----:|----:|--------:|----------:|----------:|-------------:|---------:|---------:|---------:|--------:|--------:|------------:|------------:|
+| baseline (no prefix cache) | c1 | 24 | 0 | **0.39** | 9% | 198 | 1207 | 206 | 232 | 261 | 4.7 | 4.9 | 2.6 | 2.7 |
+|  | c16 | 192 | 4 | **2.11** | 48% | 1081 | 7009 | 1708 | 2877 | 3260 | 9.3 | 9.9 | 7.5 | 8.6 |
+|  | c64 | 317 | 6 | **3.14** | 71% | 1610 | 10393 | 2541 | 8147 | 10259 | 17.4 | 18.5 | 20.2 | 28.0 |
+| prefix cache + fp8 KV | c1 | 23 | 0 | **0.38** | 9% | 195 | 1180 | 197 | 224 | 249 | 4.8 | 5.0 | 2.6 | 2.7 |
+|  | c16 | 208 | 4 | **2.24** | 51% | 1148 | 7455 | 1232 | 2490 | 2748 | 9.1 | 9.7 | 7.2 | 8.9 |
+|  | c64 | 308 | 6 | **3.04** | 69% | 1556 | 10069 | 2259 | 7714 | 9879 | 19.4 | 20.8 | 20.8 | 28.5 |
+
+## Gemma-4 31B (Dense) FP8-Dynamic
+
+| Config | C | Reqs | Err | **QPS** | vs target | Out tok/s | Prompt tok/s | TTFT p50 | TTFT p95 | TTFT p99 | ITL p50 | ITL p95 | Lat p50 (s) | Lat p99 (s) |
+|--------|--:|-----:|----:|--------:|----------:|----------:|-------------:|---------:|---------:|---------:|--------:|--------:|------------:|------------:|
+| baseline (no prefix cache) | c1 | 7 | 0 | **0.12** | 6% | 59 | 372 | 653 | 846 | 887 | 15.6 | 16.0 | 8.6 | 9.0 |
+|  | c16 | 73 | 2 | **0.68** | 34% | 350 | 2257 | 4241 | 7773 | 8715 | 23.9 | 25.0 | 21.7 | 26.1 |
+|  | c64 | 127 | 2 | **0.88** | 44% | 448 | 2891 | 42668 | 49802 | 60888 | 31.6 | 32.7 | 72.5 | 95.9 |
+| prefix cache + fp8 KV | c1 | 7 | 0 | **0.12** | 6% | 59 | 370 | 629 | 831 | 874 | 15.7 | 16.2 | 8.7 | 9.0 |
+|  | c16 | 64 | 0 | **0.70** | 35% | 360 | 2267 | 3990 | 7349 | 8428 | 29.2 | 31.2 | 23.0 | 26.5 |
+|  | c64 | 125 | 2 | **1.06** | 53% | 544 | 3500 | 7486 | 31432 | 35078 | 44.6 | 46.2 | 59.0 | 91.0 |
+
+
+Summary written to /workspace/results/H100-customer/summary.md

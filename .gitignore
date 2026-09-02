@@ -1,0 +1,15 @@
+# Walmart client data — never commit
+data/
+*.jsonl
+walmart-data/
+*sample_prompt*
+*.zip
+
+# large / derived / secrets
+*.safetensors
+plotly.min.js
+__pycache__/
+*.pyc
+.env
+*token*
+INTERNAL.md

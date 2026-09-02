@@ -1,0 +1,5 @@
+date: 2026-08-24T19:25:12+00:00
+vllm: 0.20.2rc1.dev49+g9b4e83934
+gpu: NVIDIA H100 80GB HBM3, 81559 MiB
+dataset: /vllm-workspace/benchmarks/customer-eng/customer/scripts-customer/data/customer_attr.jsonl (1000 rows)
+output_tokens: 512  max_model_len: 5120  TP: 1

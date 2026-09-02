@@ -1,0 +1,69 @@
+nohup: ignoring input
+date: 2026-08-24T19:25:12+00:00
+vllm: 0.20.2rc1.dev49+g9b4e83934
+gpu: NVIDIA H100 80GB HBM3, 81559 MiB
+dataset: /vllm-workspace/benchmarks/customer-eng/customer/scripts-customer/data/customer_attr.jsonl (1000 rows)
+output_tokens: 512  max_model_len: 5120  TP: 1
+=========================================
+  31b-fp8/baseline: RedHatAI/gemma-4-31B-it-FP8-Dynamic
+=========================================
+Starting server for RedHatAI/gemma-4-31B-it-FP8-Dynamic (TP=1) extra=[--no-enable-prefix-caching]...
+Server ready (320s).
+(EngineCore pid=5788) INFO 08-24 19:29:33 [kv_cache_utils.py:1710] GPU KV cache size: 43,074 tokens
+(EngineCore pid=5788) INFO 08-24 19:29:33 [kv_cache_utils.py:1711] Maximum concurrency for 6,144 tokens per request: 7.01x
+=== Warmup 1: serial, 5 requests (compile / CUDA graph capture) ===
+n=5 err=0 dur=45s QPS=0.111 out=57tok/s TTFT p50=521ms p99=2561ms mean_prompt_tok=3154
+=== Warmup 2: concurrent c=64, 60s ===
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=97 err=2 dur=120s QPS=0.808 out=413tok/s TTFT p50=42562ms p99=62503ms mean_prompt_tok=3285
+Warmup complete.
+  Running: 31b-fp8-baseline-c1 (c=1, 60s)
+n=7 err=0 dur=60s QPS=0.116 out=60tok/s TTFT p50=649ms p99=886ms mean_prompt_tok=3204
+
+  n=7 err=0 dur=60s QPS=0.116 out=60tok/s prompt=373tok/s TTFT p50=649ms p95=846ms p99=886ms
+  Running: 31b-fp8-baseline-c16 (c=16, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=69 err=4 dur=101s QPS=0.680 out=348tok/s TTFT p50=3610ms p99=8715ms mean_prompt_tok=3307
+
+  n=69 err=4 dur=101s QPS=0.680 out=348tok/s prompt=2249tok/s TTFT p50=3610ms p95=7833ms p99=8715ms
+  Running: 31b-fp8-baseline-c64 (c=64, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=128 err=2 dur=152s QPS=0.842 out=431tok/s TTFT p50=42255ms p99=59423ms mean_prompt_tok=3278
+
+  n=128 err=2 dur=152s QPS=0.842 out=431tok/s prompt=2762tok/s TTFT p50=42255ms p95=51185ms p99=59423ms
+  preemption log lines: 0
+Server stopped.
+
+=========================================
+  31b-fp8/pc-fp8kv: RedHatAI/gemma-4-31B-it-FP8-Dynamic
+=========================================
+Starting server for RedHatAI/gemma-4-31B-it-FP8-Dynamic (TP=1) extra=[--enable-prefix-caching --kv-cache-dtype fp8]...
+Server ready (230s).
+(EngineCore pid=6742) INFO 08-24 19:41:30 [kv_cache_utils.py:1710] GPU KV cache size: 86,152 tokens
+(EngineCore pid=6742) INFO 08-24 19:41:30 [kv_cache_utils.py:1711] Maximum concurrency for 6,144 tokens per request: 14.02x
+=== Warmup 1: serial, 5 requests (compile / CUDA graph capture) ===
+n=5 err=0 dur=45s QPS=0.110 out=56tok/s TTFT p50=515ms p99=2575ms mean_prompt_tok=3154
+=== Warmup 2: concurrent c=64, 60s ===
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=75 err=2 dur=81s QPS=0.927 out=474tok/s TTFT p50=14041ms p99=34653ms mean_prompt_tok=3278
+Warmup complete.
+  Running: 31b-fp8-pc-fp8kv-c1 (c=1, 60s)
+n=7 err=0 dur=61s QPS=0.115 out=59tok/s TTFT p50=627ms p99=864ms mean_prompt_tok=3204
+
+  n=7 err=0 dur=61s QPS=0.115 out=59tok/s prompt=370tok/s TTFT p50=627ms p95=824ms p99=864ms
+  Running: 31b-fp8-pc-fp8kv-c16 (c=16, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=65 err=4 dur=99s QPS=0.658 out=336tok/s TTFT p50=3720ms p99=7650ms mean_prompt_tok=3249
+
+  n=65 err=4 dur=99s QPS=0.658 out=336tok/s prompt=2138tok/s TTFT p50=3720ms p95=7123ms p99=7650ms
+  Running: 31b-fp8-pc-fp8kv-c64 (c=64, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=125 err=2 dur=117s QPS=1.069 out=547tok/s TTFT p50=7288ms p99=35049ms mean_prompt_tok=3270
+
+  n=125 err=2 dur=117s QPS=1.069 out=547tok/s prompt=3497tok/s TTFT p50=7288ms p95=31642ms p99=35049ms
+  preemption log lines: 0
+Server stopped.
+
+Traceback (most recent call last):
+  File "<stdin>", line 44, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: '/vllm-workspace/benchmarks/customer-eng/customer/results/H100-customer/summary.md'

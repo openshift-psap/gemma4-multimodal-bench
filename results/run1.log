@@ -1,0 +1,101 @@
+nohup: ignoring input
+date: 2026-08-24T19:06:42+00:00
+vllm: 0.20.2rc1.dev49+g9b4e83934
+gpu: NVIDIA H100 80GB HBM3, 81559 MiB
+dataset: /vllm-workspace/benchmarks/customer-eng/customer/scripts-customer/data/customer_attr.jsonl (1000 rows)
+output_tokens: 512  max_model_len: 5120  TP: 1
+=========================================
+  26b-fp8/baseline: /models/gemma-4-26B-A4B-it-FP8-Dynamic
+=========================================
+Starting server for /models/gemma-4-26B-A4B-it-FP8-Dynamic (TP=1) extra=[--no-enable-prefix-caching]...
+Server ready (160s).
+(EngineCore pid=3564) INFO 08-24 19:08:39 [kv_cache_utils.py:1710] GPU KV cache size: 198,758 tokens
+(EngineCore pid=3564) INFO 08-24 19:08:39 [kv_cache_utils.py:1711] Maximum concurrency for 6,144 tokens per request: 32.35x
+=== Warmup 1: serial, 5 requests (compile / CUDA graph capture) ===
+n=5 err=0 dur=18s QPS=0.275 out=141tok/s TTFT p50=962ms p99=2917ms mean_prompt_tok=3154
+=== Warmup 2: concurrent c=64, 60s ===
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=192 err=6 dur=63s QPS=3.055 out=1562tok/s TTFT p50=2595ms p99=11506ms mean_prompt_tok=3287
+Warmup complete.
+  Running: 26b-fp8-baseline-c1 (c=1, 60s)
+n=24 err=0 dur=62s QPS=0.387 out=198tok/s TTFT p50=206ms p99=261ms mean_prompt_tok=3129
+
+  n=24 err=0 dur=62s QPS=0.387 out=198tok/s prompt=1210tok/s TTFT p50=206ms p95=233ms p99=261ms
+  Running: 26b-fp8-baseline-c16 (c=16, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=192 err=8 dur=91s QPS=2.108 out=1078tok/s TTFT p50=1594ms p99=2943ms mean_prompt_tok=3297
+
+  n=192 err=8 dur=91s QPS=2.108 out=1078tok/s prompt=6948tok/s TTFT p50=1594ms p95=2559ms p99=2943ms
+  Running: 26b-fp8-baseline-c64 (c=64, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=313 err=10 dur=99s QPS=3.148 out=1610tok/s TTFT p50=1762ms p99=10194ms mean_prompt_tok=3282
+
+  n=313 err=10 dur=99s QPS=3.148 out=1610tok/s prompt=10332tok/s TTFT p50=1762ms p95=8222ms p99=10194ms
+  preemption log lines: 0
+Server stopped.
+
+=========================================
+  26b-fp8/pc-fp8kv: /models/gemma-4-26B-A4B-it-FP8-Dynamic
+=========================================
+Starting server for /models/gemma-4-26B-A4B-it-FP8-Dynamic (TP=1) extra=[--enable-prefix-caching --kv-cache-dtype fp8]...
+Server ready (180s).
+(EngineCore pid=4515) INFO 08-24 19:17:24 [kv_cache_utils.py:1710] GPU KV cache size: 397,522 tokens
+(EngineCore pid=4515) INFO 08-24 19:17:24 [kv_cache_utils.py:1711] Maximum concurrency for 6,144 tokens per request: 64.70x
+=== Warmup 1: serial, 5 requests (compile / CUDA graph capture) ===
+n=5 err=0 dur=18s QPS=0.270 out=138tok/s TTFT p50=945ms p99=2861ms mean_prompt_tok=3154
+=== Warmup 2: concurrent c=64, 60s ===
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=320 err=10 dur=69s QPS=4.608 out=2357tok/s TTFT p50=279ms p99=10450ms mean_prompt_tok=3280
+Warmup complete.
+  Running: 26b-fp8-pc-fp8kv-c1 (c=1, 60s)
+n=25 err=0 dur=62s QPS=0.404 out=207tok/s TTFT p50=39ms p99=44ms mean_prompt_tok=3139
+
+  n=25 err=0 dur=62s QPS=0.404 out=207tok/s prompt=1268tok/s TTFT p50=39ms p95=42ms p99=44ms
+  Running: 26b-fp8-pc-fp8kv-c16 (c=16, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=304 err=12 dur=92s QPS=3.316 out=1696tok/s TTFT p50=80ms p99=219ms mean_prompt_tok=3271
+
+  n=304 err=12 dur=92s QPS=3.316 out=1696tok/s prompt=10846tok/s TTFT p50=80ms p95=178ms p99=219ms
+  Running: 26b-fp8-pc-fp8kv-c64 (c=64, 90s)
+first error: HTTP 400: {"error":{"message":"This model's maximum context length is 6144 tokens. However, you requested 512 output tokens and your prompt contains at least 5633 input tokens, for a total of at least 6145 toke
+n=576 err=22 dur=94s QPS=6.141 out=3140tok/s TTFT p50=133ms p99=857ms mean_prompt_tok=3297
+
+  n=576 err=22 dur=94s QPS=6.141 out=3140tok/s prompt=20247tok/s TTFT p50=133ms p95=577ms p99=857ms
+  preemption log lines: 0
+Server stopped.
+
+=========================================
+  31b-fp8/baseline: google/gemma-4-31b-it-fp8-dynamic
+=========================================
+Starting server for google/gemma-4-31b-it-fp8-dynamic (TP=1) extra=[--no-enable-prefix-caching]...
+vLLM died
+(APIServer pid=5274)   File "/usr/lib/python3.12/contextlib.py", line 210, in __aenter__
+(APIServer pid=5274)     return await anext(self.gen)
+(APIServer pid=5274)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=5274)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/openai/api_server.py", line 100, in build_async_engine_client
+(APIServer pid=5274)     async with build_async_engine_client_from_engine_args(
+(APIServer pid=5274)                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=5274)   File "/usr/lib/python3.12/contextlib.py", line 210, in __aenter__
+(APIServer pid=5274)     return await anext(self.gen)
+(APIServer pid=5274)            ^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=5274)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/openai/api_server.py", line 124, in build_async_engine_client_from_engine_args
+(APIServer pid=5274)     vllm_config = engine_args.create_engine_config(usage_context=usage_context)
+(APIServer pid=5274)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=5274)   File "/usr/local/lib/python3.12/dist-packages/vllm/engine/arg_utils.py", line 1647, in create_engine_config
+(APIServer pid=5274)     maybe_override_with_speculators(
+(APIServer pid=5274)   File "/usr/local/lib/python3.12/dist-packages/vllm/transformers_utils/config.py", line 621, in maybe_override_with_speculators
+(APIServer pid=5274)     config_dict, _ = PretrainedConfig.get_config_dict(
+(APIServer pid=5274)                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=5274)   File "/usr/local/lib/python3.12/dist-packages/transformers/configuration_utils.py", line 682, in get_config_dict
+(APIServer pid=5274)     config_dict, kwargs = cls._get_config_dict(pretrained_model_name_or_path, **kwargs)
+(APIServer pid=5274)                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=5274)   File "/usr/local/lib/python3.12/dist-packages/transformers/configuration_utils.py", line 737, in _get_config_dict
+(APIServer pid=5274)     resolved_config_file = cached_file(
+(APIServer pid=5274)                            ^^^^^^^^^^^^
+(APIServer pid=5274)   File "/usr/local/lib/python3.12/dist-packages/transformers/utils/hub.py", line 278, in cached_file
+(APIServer pid=5274)     file = cached_files(path_or_repo_id=path_or_repo_id, filenames=[filename], **kwargs)
+(APIServer pid=5274)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(APIServer pid=5274)   File "/usr/local/lib/python3.12/dist-packages/transformers/utils/hub.py", line 454, in cached_files
+(APIServer pid=5274)     raise OSError(
+(APIServer pid=5274) OSError: google/gemma-4-31b-it-fp8-dynamic is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+(APIServer pid=5274) If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `hf auth login` or by passing `token=<your_token>`
